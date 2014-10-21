@@ -45,11 +45,24 @@ static const int GRID_COLUMNS = 10;
             //addChild is a CCNode method
             [self addChild:creature];
             _gridArray[i][j] = creature;
-            creature.isAlive = YES;
+            //creature.isAlive = YES;
             x += _cellWidth;
         }
         y += _cellHeight;
     }
+}
+
+-(void) touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
+    CGPoint touchLocation = [touch locationInNode:self];
+    Creature *creature = [self creatureForTouchPosition : touchLocation];
+    creature.isAlive = !creature.isAlive;
+}
+
+-(Creature *) creatureForTouchPosition: (CGPoint)touchLocation
+{
+    int row = touchLocation.y / _cellHeight;
+    int col = touchLocation.x / _cellWidth;
+    return _gridArray[row][col];
 }
 
 @end
